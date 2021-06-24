@@ -32,13 +32,14 @@ llvm_x86_static_libraries := \
   libLLVM90X86Disassembler
 
 ifneq ($(filter radeonsi,$(BOARD_GPU_DRIVERS)),)
-llvm_x86_static_libraries += \
+llvm_amdgpu_static_libraries += \
   libLLVM90AMDGPUCodeGen \
   libLLVM90AMDGPUInfo \
   libLLVM90AMDGPUDesc \
   libLLVM90AMDGPUAsmParser \
   libLLVM90AMDGPUUtils \
   libLLVM90AMDGPUDisassembler
+
 endif
 
 llvm_mips_static_libraries := \
@@ -108,6 +109,7 @@ LOCAL_MODULE_TAGS := optional
 
 # Host build pulls in all ARM, Mips, X86 components.
 LOCAL_WHOLE_STATIC_LIBRARIES := \
+  $(llvm_amdgpu_static_libraries) \
   $(llvm_pre_static_libraries) \
   $(llvm_arm_static_libraries) \
   $(llvm_x86_static_libraries) \
@@ -145,6 +147,7 @@ LOCAL_MODULE_TAGS := optional
 
 # Device build selectively pulls in ARM, Mips, X86 components.
 LOCAL_WHOLE_STATIC_LIBRARIES := \
+  $(llvm_amdgpu_static_libraries) \
   $(llvm_pre_static_libraries)
 
 LOCAL_WHOLE_STATIC_LIBRARIES_arm += $(llvm_arm_static_libraries)
